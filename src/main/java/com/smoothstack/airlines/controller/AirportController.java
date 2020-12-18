@@ -22,7 +22,7 @@ import com.smoothstack.airlines.exceptions.ResourceExistsException;
 import com.smoothstack.airlines.service.AirportService;
 
 @RestController
-@RequestMapping("/airport")
+@RequestMapping("/airports")
 public class AirportController {
 
 	@Autowired
@@ -48,7 +48,6 @@ public class AirportController {
 		try {
 			return airportService.createAirport(airport);
 		} catch (ResourceExistsException e) {
-			// TODO Auto-generated catch block
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
 			return null;
 		}
@@ -64,8 +63,8 @@ public class AirportController {
 		}
 	}
 	
-	@DeleteMapping
-	public void deleteAirport(@RequestBody int airportId, HttpServletResponse response) {
+	@DeleteMapping("/{airportId}")
+	public void deleteAirport(@PathVariable int airportId, HttpServletResponse response) {
 		try {
 			airportService.deleteAirport(airportId);
 		} catch (ResourceDoesNotExistException e) {
