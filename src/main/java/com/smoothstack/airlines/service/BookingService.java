@@ -75,6 +75,7 @@ public class BookingService {
 		bookingDao.save(dbBooking);
 	}
 
+	@Transactional
 	public void deleteBooking(Integer bookingId) throws ResourceNotFoundException {
 		Booking dbBooking = bookingDao.findByBookingId(bookingId);
 		if (dbBooking == null) {
