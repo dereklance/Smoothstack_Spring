@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smoothstack.airlines.dao.BookingDao;
@@ -20,7 +20,7 @@ import com.smoothstack.airlines.entity.primaryKeys.BookingKey;
 import com.smoothstack.airlines.exceptions.ResourceExistsException;
 import com.smoothstack.airlines.exceptions.ResourceNotFoundException;
 
-@Component
+@Service
 public class BookingService {
 	
 	@Autowired BookingDao bookingDao;
@@ -36,8 +36,8 @@ public class BookingService {
 		
 		Set<BookingKey> bookingKeys = bookingsHasTravelersDao.findByTravelerTravelerId(travelerId).stream()
 			.map(result -> {
-				Integer bookingId = result.getBookings_bookingId();
-				Integer flightId = result.getBookings_flightId();
+				Integer bookingId = result.getBookingsBookingId();
+				Integer flightId = result.getBookingsFlightId();
 				return new BookingKey(bookingId, flightId);
 			})
 			.collect(Collectors.toSet());

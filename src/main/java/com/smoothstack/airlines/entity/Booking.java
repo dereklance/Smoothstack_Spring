@@ -1,6 +1,8 @@
 package com.smoothstack.airlines.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,16 +19,18 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smoothstack.airlines.entity.primaryKeys.BookingKey;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 @Entity
 @Table(name = "tbl_booking")
 @IdClass(BookingKey.class)
 public class Booking {
 
-	@Id
-	private Integer bookingId;
+	@Id private Integer bookingId;
 	
-	@Id
-	private Integer flightId;
+	@Id private Integer flightId;
 
 	private Boolean isActive;
 
@@ -34,6 +38,7 @@ public class Booking {
 
 	private Integer bookerId;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "tbl_flight_has_bookings", joinColumns = {
 			@JoinColumn(name = "bookings_bookingId", referencedColumnName = "bookingId"),
@@ -44,68 +49,11 @@ public class Booking {
 					@JoinColumn(name = "flights_arriveCityId", referencedColumnName = "arriveCityId") })
 	private Flight flight;
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "tbl_bookings_has_travelers", joinColumns = {
 			@JoinColumn(name = "bookings_bookingId", referencedColumnName = "bookingId"),
 			@JoinColumn(name = "bookings_flightId", referencedColumnName = "flightId") }, inverseJoinColumns = {
 					@JoinColumn(name = "traveler_travelerId", referencedColumnName = "travelerId") })
 	private Set<Traveler> travelers = new HashSet<>();
-
-	@JsonIgnore
-	public Set<Traveler> getTravelers() {
-		return travelers;
-	}
-
-	public void setTravelers(Set<Traveler> travelers) {
-		this.travelers = travelers;
-	}
-
-	@JsonIgnore
-	public Flight getFlight() {
-		return flight;
-	}
-
-	public void setFlight(Flight flight) {
-		this.flight = flight;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public String getStripeId() {
-		return stripeId;
-	}
-
-	public void setStripeId(String stripeId) {
-		this.stripeId = stripeId;
-	}
-
-	public Integer getBookerId() {
-		return bookerId;
-	}
-
-	public void setBookerId(Integer bookerId) {
-		this.bookerId = bookerId;
-	}
-
-	public Integer getBookingId() {
-		return bookingId;
-	}
-
-	public void setBookingId(Integer bookingId) {
-		this.bookingId = bookingId;
-	}
-
-	public Integer getFlightId() {
-		return flightId;
-	}
-
-	public void setFlightId(Integer flightId) {
-		this.flightId = flightId;
-	}
 }
