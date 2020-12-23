@@ -17,9 +17,11 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smoothstack.airlines.entity.primaryKeys.BookingKey;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+@Builder
 @Getter @Setter
 @Entity
 @Table(name = "tbl_booking")
@@ -47,6 +49,7 @@ public class Booking {
 					@JoinColumn(name = "flights_arriveCityId", referencedColumnName = "arriveCityId") })
 	private Flight flight;
 
+	@Builder.Default
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "tbl_bookings_has_travelers", joinColumns = {

@@ -1,6 +1,6 @@
 package com.smoothstack.airlines.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,23 +14,29 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
 
 @Data
 @Entity
 @Table(name = "tbl_traveler")
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Traveler {
 	
-	@Id private Integer travelerId;
+	@NonNull @Id private Integer travelerId;
 	
-	private String name;
+	@NonNull private String name;
 	
-	private String address;
+	@NonNull private String address;
 	
-	private String phone;
+	@NonNull private String phone;
 	
-	private String email;
+	@NonNull private String email;
 	
-	private Date dob;
+	@NonNull private Timestamp dob;
 	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "travelers")

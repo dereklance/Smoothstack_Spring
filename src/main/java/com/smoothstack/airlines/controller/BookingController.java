@@ -1,6 +1,7 @@
 package com.smoothstack.airlines.controller;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smoothstack.airlines.entity.Booking;
+import com.smoothstack.airlines.exceptions.ResourceExistsException;
 import com.smoothstack.airlines.exceptions.ResourceNotFoundException;
 import com.smoothstack.airlines.service.BookingService;
 
@@ -31,7 +33,7 @@ public class BookingController {
 	}
 
 	@PostMapping("/travelers/{travelerId}")
-	public ResponseEntity<Booking> createBooking(@RequestBody Booking booking, @PathVariable Integer travelerId) throws Exception {
+	public ResponseEntity<Booking> createBooking(@RequestBody Booking booking, @PathVariable Integer travelerId) throws ResourceExistsException, ResourceNotFoundException, URISyntaxException  {
 		bookingService.createBooking(booking, travelerId);
 		return ResponseEntity.created(new URI("/bookings/" + booking.getBookingId())).body(booking);
 	}

@@ -15,23 +15,38 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smoothstack.airlines.entity.primaryKeys.FlightKey;
 
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "tbl_flight")
 @IdClass(FlightKey.class)
 public class Flight {
-	
-	@Id private Integer flightId;
 
-	@Id private Timestamp departTime;
+	@NonNull
+	@Id
+	private Integer flightId;
 
-	@Id private Integer departCityId;
+	@NonNull
+	@Id
+	private Timestamp departTime;
 
-	@Id private Integer arriveCityId;
+	@NonNull
+	@Id
+	private Integer departCityId;
 
+	@NonNull
+	@Id
+	private Integer arriveCityId;
+
+	@NonNull
 	private Integer seatsAvailable;
-
+	
+	@NonNull
 	private Float price;
 
 	@JsonIgnore
