@@ -19,6 +19,7 @@ import com.smoothstack.airlines.entity.Traveler;
 import com.smoothstack.airlines.entity.primaryKeys.BookingKey;
 import com.smoothstack.airlines.exceptions.ResourceExistsException;
 import com.smoothstack.airlines.exceptions.ResourceNotFoundException;
+import com.smoothstack.constants.ResourceType;
 
 @Service
 public class BookingService {
@@ -31,7 +32,7 @@ public class BookingService {
 	public List<Booking> getBookingsByTraveler(Integer travelerId) throws ResourceNotFoundException {
 		Optional<Traveler> traveler = travelerDao.findById(travelerId);
 		if(traveler.isEmpty()) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(travelerId, ResourceType.TRAVELER);
 		}
 		
 		Set<BookingKey> bookingKeys = bookingsHasTravelersDao.findByTravelerTravelerId(travelerId).stream()
@@ -48,12 +49,12 @@ public class BookingService {
 	public Booking createBooking(Booking booking, Integer travelerId) throws ResourceExistsException, ResourceNotFoundException {
 		Booking dbBooking = bookingDao.findByBookingId(booking.getBookingId());
 		if (dbBooking != null) {
-			throw new ResourceExistsException();
+			throw new ResourceExistsException(booking.getBookingId(), ResourceType.BOOKING);
 		}
 		
 		Optional<Traveler> traveler = travelerDao.findById(travelerId);
 		if (traveler.isEmpty()) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(travelerId, ResourceType.TRAVELER);
 		}
 		
 		booking.getTravelers().add(traveler.get());
@@ -67,7 +68,7 @@ public class BookingService {
 	public void updateBooking(Booking booking) throws ResourceNotFoundException {
 		Booking dbBooking = bookingDao.findByBookingId(booking.getBookingId());
 		if (dbBooking == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(booking.getBookingId(), ResourceType.BOOKING);
 		}
 		
 		dbBooking.setIsActive(booking.getIsActive());
@@ -79,7 +80,7 @@ public class BookingService {
 	public void deleteBooking(Integer bookingId) throws ResourceNotFoundException {
 		Booking dbBooking = bookingDao.findByBookingId(bookingId);
 		if (dbBooking == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(bookingId, ResourceType.BOOKING);
 		}
 		
 		bookingDao.delete(dbBooking);
