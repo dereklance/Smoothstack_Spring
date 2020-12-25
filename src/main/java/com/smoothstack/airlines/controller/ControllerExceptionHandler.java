@@ -22,12 +22,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	protected ResponseEntity<Object> handleConstraintFailure(DataIntegrityViolationException ex) {
-		return handleExceptionInternal(ex, ex.getMessage(), null, HttpStatus.BAD_REQUEST, null);
+		return handleExceptionInternal(ex, "Foreign key constraint failed.", null, HttpStatus.BAD_REQUEST, null);
 	}
 
 	@ExceptionHandler(URISyntaxException.class)
 	protected ResponseEntity<Object> handleMalformedURI(URISyntaxException ex) {
-		return handleExceptionInternal(ex, ex.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR, null);
+		return handleExceptionInternal(ex, "Malformed URI in Location header.", null, HttpStatus.INTERNAL_SERVER_ERROR, null);
 	}
 	
 	@ExceptionHandler(ResourceNotFoundException.class)

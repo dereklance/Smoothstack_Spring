@@ -17,26 +17,33 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.smoothstack.airlines.entity.primaryKeys.BookingKey;
 
+import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Builder
 @Getter @Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tbl_booking")
 @IdClass(BookingKey.class)
 public class Booking {
 
-	@Id private Integer bookingId;
+	@NonNull @Id private Integer bookingId;
 	
-	@Id private Integer flightId;
+	@NonNull @Id private Integer flightId;
 
-	private Boolean isActive;
+	@NonNull private Boolean isActive;
 
-	private String stripeId;
+	@NonNull private String stripeId;
 
-	private Integer bookerId;
+	@NonNull private Integer bookerId;
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

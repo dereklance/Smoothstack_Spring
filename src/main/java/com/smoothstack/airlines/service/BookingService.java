@@ -57,8 +57,6 @@ public class BookingService {
 			throw new ResourceNotFoundException(travelerId, ResourceType.TRAVELER);
 		}
 		
-		System.out.println("travelers set: " + booking.getTravelers());
-		
 		booking.getTravelers().add(traveler.get());
 		Flight flight = flightDao.findByFlightId(booking.getFlightId());
 		
@@ -86,5 +84,9 @@ public class BookingService {
 		}
 		
 		bookingDao.delete(dbBooking);
+	}
+
+	public List<Booking> getAllBookings() {
+		return bookingDao.findAll();
 	}
 }

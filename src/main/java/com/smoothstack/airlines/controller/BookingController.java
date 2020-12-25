@@ -31,6 +31,11 @@ public class BookingController {
 	public List<Booking> getAllBookings(@PathVariable Integer travelerId) throws ResourceNotFoundException {
 		return bookingService.getBookingsByTraveler(travelerId);
 	}
+	
+	@GetMapping
+	public List<Booking> getBookings() {
+		return bookingService.getAllBookings();
+	}
 
 	@PostMapping("/travelers/{travelerId}")
 	public ResponseEntity<Booking> createBooking(@RequestBody Booking booking, @PathVariable Integer travelerId) throws ResourceExistsException, ResourceNotFoundException, URISyntaxException  {
